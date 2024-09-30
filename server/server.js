@@ -1,20 +1,12 @@
-const http = require('http');
+import { configureSocket } from './components/io.js';
+import express from 'express';
+import {createServer} from 'node:http';
 
-// Create an HTTP server
+const app = express();
+const server = createServer(app);
 
-const server = http.createServer();
+configureSocket(server);
 
 const port = process.env.PORT ?? 1234;
-
-const io = require('socket.io') (server, {
-    cors: { origin : '*'}
-});
-
-
-// Socket.IO event listeners
-
-io.on('connection', (socket) => {
-    
-});
 
 server.listen(port);
