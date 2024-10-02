@@ -5,13 +5,24 @@ import {io} from 'socket.io-client'
  //Nos permitira enviar eventos 
 
 function App() {
-  const socket = io('http://localhost:1234')
 
+  const [socket, setSocket] = useState(null)
   const [isConecter,setConecter] = useState(false)
 
   useEffect(() => {
-      socket.on('connect', () => setConecter(true))
-  },{})
+    const Newsocket = io('http://localhost:1234')
+    setSocket(Newsocket)
+
+    Newsocket.on('connect', () => {
+      setConecter(true);
+      console.log('Connect');
+    });
+
+    Newsocket.on('disconnect', () => {
+      setConecter(false);
+      console.log('Disconnect');
+    });
+  },[])
 
 
   return (
